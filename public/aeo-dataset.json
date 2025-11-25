@@ -1,0 +1,31 @@
+{
+  "name": "Factotum Digital AEO Dataset",
+  "description": "Colección curada de preguntas frecuentes, guías operativas y métricas de automatización optimizadas para motores de respuesta.",
+  "publisher": "Factotum Digital",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "lastUpdated": "2025-11-25",
+  "topics": [
+    {
+      "title": "Onboarding Conversacional",
+      "entries": 128,
+      "formats": ["FAQPage", "HowTo", "Dataset"],
+      "coverage": ["ChatGPT", "Perplexity", "Gemini"],
+      "confidenceScore": 0.91
+    },
+    {
+      "title": "Playbooks de Prompts",
+      "entries": 64,
+      "formats": ["PromptFlow", "JSON", "Markdown"],
+      "coverage": ["Perplexity", "You.com"],
+      "confidenceScore": 0.87
+    },
+    {
+      "title": "Schemas Conversacionales",
+      "entries": 48,
+      "formats": ["FAQPage", "HowTo", "Dataset"],
+      "coverage": ["Google SGE", "Bing Copilot"],
+      "confidenceScore": 0.84
+    }
+  ],
+  "contact": "support@factotum.digital"
+}

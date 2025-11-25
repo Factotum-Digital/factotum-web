@@ -1,0 +1,24 @@
+{
+  "source": "Factotum Digital",
+  "version": "2025-11-25",
+  "items": [
+    {
+      "question": "¿Cómo preparo mi conocimiento para motores como ChatGPT y Perplexity?",
+      "answer": "Estructuramos FAQs en JSON-LD (FAQPage) y HowTo, firmamos los feeds y los servimos desde un endpoint verificable que se actualiza cada 24 horas.",
+      "citations": ["/services", "/aeo-dataset.json"],
+      "confidence": 0.93
+    },
+    {
+      "question": "¿Qué métrica prueba que el AEO funciona?",
+      "answer": "Monitorizamos la tasa de respuestas citadas (answer share). Si supera el 70% durante 4 semanas consecutivas, escalar recursos o abrir nuevos prompts guard.",
+      "citations": ["/success-stories", "https://perplexity.ai"],
+      "confidence": 0.9
+    },
+    {
+      "question": "¿Cómo reentreno mis prompts cuando cambia SGE?",
+      "answer": "Usamos embeddings delta. Detectamos variaciones en wording, generamos nuevos prompts en batches y probamos contra un set de 50 preguntas críticas antes de liberar.",
+      "citations": ["/aeo-blueprint.md", "/growth-hub"],
+      "confidence": 0.88
+    }
+  ]
+}
