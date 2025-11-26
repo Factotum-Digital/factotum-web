@@ -3,7 +3,12 @@ import { motion } from 'framer-motion';
 import { Play, ArrowRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const Hero = () => {
+const Hero = ({
+     title = 'Domina el Futuro del Crecimiento Digital',
+     subtitle = 'Unificamos estrategias de AEO, YouTube SEO y Automatización para posicionar tu marca donde realmente importa. El futuro no espera.',
+     cta1 = { text: 'Empezar Ahora', href: '/start' },
+     cta2 = { text: 'Ver Demo', href: '/demo' },
+}) => {
      return (
           <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
                {/* Background Elements */}
@@ -26,28 +31,29 @@ const Hero = () => {
                          </div>
 
                          <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6">
-                              Domina el Futuro del <br />
-                              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7DE3FF] via-[#00A2FF] to-[#004BFF]">
-                                   Crecimiento Digital
-                              </span>
+                              {title}
                          </h1>
 
                          <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                              Unificamos estrategias de AEO, YouTube SEO y Automatización para posicionar tu marca donde realmente importa. El futuro no espera.
+                              {subtitle}
                          </p>
 
                          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                             <Link to="/start" className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2 group">
-                                  Empezar Ahora
-                                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                             </Link>
-                             <Link to="/demo" className="btn-glass w-full sm:w-auto flex items-center justify-center gap-2 group">
-                                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                                       <Play size={14} fill="currentColor" />
-                                  </div>
-                                  Ver Demo
-                             </Link>
-                        </div>
+                             {cta1 && (
+                                  <Link to={cta1.href} className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2 group">
+                                       {cta1.text}
+                                       <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                  </Link>
+                             )}
+                             {cta2 && (
+                                  <Link to={cta2.href} className="btn-glass w-full sm:w-auto flex items-center justify-center gap-2 group">
+                                       <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                            <Play size={14} fill="currentColor" />
+                                       </div>
+                                       {cta2.text}
+                                  </Link>
+                             )}
+                         </div>
 
                          <div className="mt-12 flex items-center justify-center lg:justify-start gap-8 text-gray-500 text-sm font-medium">
                               <div className="flex items-center gap-2">

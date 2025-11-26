@@ -46,7 +46,7 @@ const ContactForm = () => {
         message: ''
       });
       
-    } catch (_) {
+    } catch {
       setSubmitStatus({
         success: false,
         message: 'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.'

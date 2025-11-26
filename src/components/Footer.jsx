@@ -65,7 +65,7 @@ const Footer = () => {
                               </div>
 
                               {/* Newsletter Form */}
-                              <div className="w-full max-w-md">
+                              <div className="w-full max-w-md" id="footer-newsletter">
                                    <h4 className="font-bold mb-3 text-sm">Suscríbete a nuestro Newsletter</h4>
                                    <form onSubmit={handleSubmit} className="flex gap-2">
                                         <input
@@ -95,10 +95,10 @@ const Footer = () => {
                          <div className="flex flex-col items-center">
                               <h4 className="font-bold mb-6">Plataforma</h4>
                               <ul className="space-y-4 text-gray-400">
-                                   <li><Link to="/#growth-hub" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Growth Hub</Link></li>
-                                   <li><Link to="/services" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Servicios</Link></li>
-                                   <li><Link to="/start" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Precios</Link></li>
-                                   <li><Link to="/contacto" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Contacto</Link></li>
+                                   <li><Link to="/contenido" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Contenido</Link></li>
+                                   <li><Link to="/academy" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Academia</Link></li>
+                                   <li><Link to="/blog" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Blog</Link></li>
+                                   <li><Link to="/about" className="hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#00C2FF] hover:to-[#7000FF] transition-all">Sobre Mí</Link></li>
                               </ul>
                          </div>
 
