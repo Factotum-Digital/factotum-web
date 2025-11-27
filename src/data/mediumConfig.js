@@ -58,5 +58,9 @@ export const formatMediumDate = (dateString) => {
  * Obtiene la URL del feed RSS de Medium
  */
 export const getMediumRssUrl = (username) => {
-  return `https://medium.com/feed/${username.replace('@', '')}`;
+  // Mantener el @ en el nombre de usuario para Medium
+  const cleanUsername = username.startsWith('@') ? username : `@${username}`;
+  const url = `https://medium.com/feed/${cleanUsername}`;
+  console.log('URL del feed de Medium:', url);
+  return url;
 };

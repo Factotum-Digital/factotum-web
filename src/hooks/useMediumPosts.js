@@ -54,23 +54,37 @@ const useMediumPosts = (username) => {
       const now = new Date().getTime();
       
       if (cachedData) {
-        const { timestamp, data } = JSON.parse(cachedData);
-        const cacheAge = (now - timestamp) / (1000 * 60); // en minutos
-        
-        if (cacheAge < CACHE_TIME_MINUTES) {
-          setPosts(processMediumPosts(data));
-          setLoading(false);
-          return;
+        try {
+          const { timestamp, data } = JSON.parse(cachedData);
+          const cacheAge = (now - timestamp) / (1000 * 60); // en minutos
+          
+          if (cacheAge < CACHE_TIME_MINUTES) {
+            console.log('Usando datos de la caché');
+            setPosts(processMediumPosts(data));
+            setLoading(false);
+            return;
+          }
+        } catch (e) {
+          console.error('Error al procesar caché:', e);
         }
       }
 
       // Hacer fetch a la API
       const rssUrl = getMediumRssUrl(username);
-      const response = await fetch(`${RSS_API_URL}?rss_url=${encodeURIComponent(rssUrl)}`);
+      const apiUrl = `${RSS_API_URL}?rss_url=${encodeURIComponent(rssUrl)}`;
+      console.log('Solicitando datos a:', apiUrl);
       
-      if (!response.ok) throw new Error('Error al cargar los artículos de Medium');
+      const response = await fetch(apiUrl);
+      console.log('Respuesta de la API:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error en la respuesta:', errorText);
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
       
       const data = await response.json();
+      console.log('Datos recibidos:', data);
       
       if (data.status === 'ok') {
         // Guardar en caché
@@ -82,10 +96,11 @@ const useMediumPosts = (username) => {
         
         setPosts(processMediumPosts(data));
       } else {
+        console.error('Error en los datos de la API:', data);
         throw new Error(data.message || 'Error al procesar los artículos');
       }
     } catch (err) {
-      console.error('Error fetching Medium posts:', err);
+      console.error('Error al obtener los artículos:', err);
       setError('No se pudieron cargar los artículos. Mostrando artículos de muestra.');
       setPosts(FALLBACK_ARTICLES);
     } finally {
