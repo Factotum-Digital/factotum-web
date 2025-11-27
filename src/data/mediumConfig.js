@@ -6,13 +6,30 @@ export const FALLBACK_ARTICLES = [];
 
 export const extractImageFromHTML = (html) => {
   if (!html) return null;
-  
-  // IMPORTANTE: Ignorar URLs de tracking/stat de Medium que no son imagenes reales
-  // Medium envia URLs como: https://medium.com/_/stat?event=post.clientViewed...
-  // Estas NO son imagenes, son pixels de tracking
-  
-  // NO buscar en Medium porque Medium NO envia imagenes en RSS
-  // Solo devolver null para que use PLACEHOLDER_IMAGES
+
+  // 1. Buscar la primera etiqueta <img> y capturar el contenido de src="..."
+  const imgRegex = /<img[^>]+src="([^">
+]+)"/i;
+  const match = html.match(imgRegex);
+
+  if (match && match[1]) {
+    const src = match[1];
+
+    // 2. IMPORTANTE: Filtrar el pixel de tracking de Medium
+    // Medium inserta una imagen invisible de 1x1 para estadísticas que suele ser la primera
+    if (src.includes('stat?event') || src.includes('medium.com/_/stat')) {
+      // Si la primera es tracking, intentamos buscar la siguiente imagen en el texto restante
+      const remainingHtml = html.substring(match.index + match[0].length);
+      const nextMatch = remainingHtml.match(imgRegex);
+      if (nextMatch && nextMatch[1]) {
+        return nextMatch[1];
+      }
+      return null;
+    }
+
+    return src;
+  }
+
   return null;
 };
 
