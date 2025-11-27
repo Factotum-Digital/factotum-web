@@ -20,12 +20,29 @@ export const FALLBACK_ARTICLES = [
 ];
 
 /**
- * Extrae la primera imagen del contenido HTML
+ * Extrae la primera imagen del contenido HTML (Mejorado para múltiples formatos)
  */
 export const extractImageFromHTML = (html) => {
   if (!html) return null;
-  const imgMatch = html.match(/<img[^>]+src="([^">]+)"/);
-  return imgMatch ? imgMatch[1] : null;
+  
+  console.log('Extrayendo imagen de HTML:', html.substring(0, 500));
+  
+  // Intenta 1: Buscar <img> tag con src entre comillas
+  let imgMatch = html.match(/<img[^>]+src="([^"]+)"/i);
+  if (imgMatch && imgMatch[1]) {
+    console.log('Imagen encontrada (img tag):', imgMatch[1]);
+    return imgMatch[1];
+  }
+  
+  // Intenta 2: Buscar URL directa en el contenido
+  const urlMatch = html.match(/(https?:\/\/[^\s"'<>]+\.(?:jpg|jpeg|png|gif|webp))/i);
+  if (urlMatch && urlMatch[1]) {
+    console.log('Imagen encontrada (URL directa):', urlMatch[1]);
+    return urlMatch[1];
+  }
+  
+  console.log('No se encontró imagen en el HTML');
+  return null;
 };
 
 /**
