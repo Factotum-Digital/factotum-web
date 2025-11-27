@@ -11,6 +11,16 @@ import {
 
 const CACHE_KEY = 'medium_posts_cache';
 
+// Array de imágenes profesionales (fallback atractivo)
+const PLACEHOLDER_IMAGES = [
+  'https://images.unsplash.com/photo-1516321318423-f06f70ab7cb4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1677442d019cecf8d50032744871d3f51b3e89f47?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1460925895917-aeb19be489c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1516534775068-bb6c4e2b6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+];
+
 const useMediumPosts = (username) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,24 +29,22 @@ const useMediumPosts = (username) => {
   const processMediumPosts = useCallback((data) => {
     if (!data?.items?.length) return [];
 
-    return data.items.map((item) => {
-      const image = extractImageFromHTML(item.content) || 
-                   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
-      
-      // Asegurar que el enlace sea una URL completa
+    return data.items.map((item, index) => {
+      const extractedImage = extractImageFromHTML(item.content);
+      const image = extractedImage || PLACEHOLDER_IMAGES[index % PLACEHOLDER_IMAGES.length];
+
       let link = item.link || '';
       if (link && !link.startsWith('http')) {
-        // Si el enlace es relativo, convertirlo a absoluto
         link = `https://medium.com${link.startsWith('/') ? '' : '/'}${link}`;
       }
-      
+
       return {
         id: item.guid,
         title: item.title,
         excerpt: extractTextFromHTML(item.description || ''),
         content: item.content || '',
         date: formatMediumDate(item.pubDate),
-        readTime: '5 min', // No disponible en la API, valor por defecto
+        readTime: '5 min',
         category: item.categories?.[0] || 'Blog',
         image,
         link,
@@ -48,60 +56,53 @@ const useMediumPosts = (username) => {
   const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
-      
-      // Verificar caché
+
       const cachedData = localStorage.getItem(CACHE_KEY);
       const now = new Date().getTime();
-      
+
       if (cachedData) {
         try {
           const { timestamp, data } = JSON.parse(cachedData);
-          const cacheAge = (now - timestamp) / (1000 * 60); // en minutos
-          
+          const cacheAge = (now - timestamp) / (1000 * 60);
+
           if (cacheAge < CACHE_TIME_MINUTES) {
-            console.log('Usando datos de la caché');
+            console.log('Usando datos de la cache');
             setPosts(processMediumPosts(data));
             setLoading(false);
             return;
           }
         } catch (e) {
-          console.error('Error al procesar caché:', e);
+          console.error('Error al procesar cache:', e);
         }
       }
 
-      // Hacer fetch a la API
       const rssUrl = getMediumRssUrl(username);
       const apiUrl = `${RSS_API_URL}?rss_url=${encodeURIComponent(rssUrl)}`;
       console.log('Solicitando datos a:', apiUrl);
-      
+
       const response = await fetch(apiUrl);
-      console.log('Respuesta de la API:', response.status, response.statusText);
-      
+      console.log('Respuesta de la API:', response.status);
+
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error en la respuesta:', errorText);
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
+        throw new Error(`Error ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log('Datos recibidos:', data);
-      
+
       if (data.status === 'ok') {
-        // Guardar en caché
         const cacheData = {
           timestamp: now,
           data,
         };
         localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-        
         setPosts(processMediumPosts(data));
       } else {
-        console.error('Error en los datos de la API:', data);
-        throw new Error(data.message || 'Error al procesar los artículos');
+        throw new Error(data.message || 'Error');
       }
     } catch (err) {
-      console.error('Error al obtener los artículos:', err);
-      setError('No se pudieron cargar los artículos. Mostrando artículos de muestra.');
+      console.error('Error:', err);
+      setError('No se pudieron cargar los articulos. Mostrando articulos de muestra.');
       setPosts(FALLBACK_ARTICLES);
     } finally {
       setLoading(false);
