@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, Loader2 } from 'lucide-react';
+import { Calendar, ArrowRight } from 'lucide-react';
 import useMediumPosts from '../hooks/useMediumPosts';
 import { FALLBACK_ARTICLES } from '../data/mediumConfig';
 
@@ -15,71 +15,6 @@ const Blog = () => {
   }));
   
   const displayArticles = loading ? skeletonData : (error ? FALLBACK_ARTICLES : articles);
-      readTime: '8 min',
-      category: 'YouTube SEO',
-      image: 'https://images.pexels.com/photos/3184450/pexels-photo-3184450.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-    {
-      id: 2,
-      title: 'AEO: Cómo posicionarte en ChatGPT y Perplexity',
-      slug: 'aeo-chatgpt-perplexity',
-      excerpt: 'Guía completa sobre Answer Engine Optimization para que tu contenido sea la respuesta en IA.',
-      content: '# AEO: Cómo posicionarte en ChatGPT y Perplexity\n\nEl futuro de la búsqueda es con IA...',
-      author: 'Factotum Digital',
-      date: '2025-11-20',
-      readTime: '10 min',
-      category: 'AEO',
-      image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-    {
-      id: 3,
-      title: 'Podcast: De 0 a 10K oyentes en 6 meses',
-      slug: 'podcast-crecimiento',
-      excerpt: 'Estrategia probada para crecer en podcasting: distribución, promoción y contenido que engancha.',
-      content: '# Podcast: De 0 a 10K oyentes en 6 meses\n\nSi quieres lanzar un podcast exitoso...',
-      author: 'Factotum Digital',
-      date: '2025-11-15',
-      readTime: '12 min',
-      category: 'Podcasting',
-      image: 'https://images.pexels.com/photos/1647919/pexels-photo-1647919.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-    {
-      id: 4,
-      title: 'Publicar tu libro: KDP vs Autoedición',
-      slug: 'libro-kdp-autoedicion',
-      excerpt: 'Comparativa completa: Amazon KDP vs Autoedición tradicional. Costos, ventajas y desventajas.',
-      content: '# Publicar tu libro: KDP vs Autoedición\n\nLa era del autopublishing permite a cualquiera...',
-      author: 'Factotum Digital',
-      date: '2025-11-10',
-      readTime: '9 min',
-      category: 'Publishing',
-      image: 'https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-    {
-      id: 5,
-      title: 'Blueprint para newsletters que convierten',
-      slug: 'newsletter-blueprint',
-      excerpt: 'Estructura tus campañas de email con funnels personalizados y automatizaciones IA.',
-      content: '# Blueprint para newsletters que convierten\n\nTodo parte de entender el journey del lector...',
-      author: 'Factotum Digital',
-      date: '2025-11-05',
-      readTime: '7 min',
-      category: 'Email Marketing',
-      image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-    {
-      id: 6,
-      title: 'Contenido corto: Domina Shorts y Reels',
-      slug: 'short-form-contenido',
-      excerpt: 'Checklist para producir microvideos diarios sin quemar a tu equipo creativo.',
-      content: '# Contenido corto que vende\n\nLos formatos verticales son prioridad...',
-      author: 'Factotum Digital',
-      date: '2025-10-30',
-      readTime: '6 min',
-      category: 'Social Media',
-      image: 'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    },
-  ]);
 
   return (
     <>
