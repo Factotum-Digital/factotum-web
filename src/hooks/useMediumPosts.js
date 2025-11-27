@@ -30,7 +30,7 @@ const useMediumPosts = (username) => {
     if (!data?.items?.length) return [];
 
     return data.items.map((item, index) => {
-      const extractedImage = extractImageFromHTML(item.content);
+      const extractedImage = item.thumbnail || extractImageFromHTML(item.content);
       const image = extractedImage || PLACEHOLDER_IMAGES[index % PLACEHOLDER_IMAGES.length];
 
       let link = item.link || '';
