@@ -8,9 +8,8 @@ export const extractImageFromHTML = (html) => {
   if (!html) return null;
 
   // 1. Buscar la primera etiqueta <img> y capturar el contenido de src="..."
-  const imgRegex = /<img[^>]+src="([^">
-]+)"/i;
-  const match = html.match(imgRegex);
+const imgRegex = /<img[^>]+src="([^">
+]+)"/i;  const match = html.match(imgRegex);
 
   if (match && match[1]) {
     const src = match[1];
