@@ -62,9 +62,13 @@ const Blog = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {displayArticles.map((article, idx) => (
-              <motion.article
+              <motion.a
+                href={article.isSkeleton ? '#' : article.link}
+                target={article.isSkeleton ? '_self' : '_blank'}
+                rel="noopener noreferrer"
+                onClick={(e) => article.isSkeleton && e.preventDefault()}
                 key={article.id || `skeleton-${idx}`}
-                className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 transition flex flex-col h-full"
+                className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 transition flex flex-col h-full cursor-pointer block no-underline group"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
@@ -82,7 +86,6 @@ const Blog = () => {
                     />
                   )}
                 </div>
-
                 <div className="p-5 flex flex-col gap-3 flex-1">
                   {article.isSkeleton ? (
                     <>
@@ -106,32 +109,25 @@ const Blog = () => {
                         </span>
                         <span>{article.readTime}</span>
                       </div>
-
                       <h3 className="text-lg font-semibold leading-tight line-clamp-2 group-hover:text-blue-400 transition">
                         {article.title}
                       </h3>
                       <p className="text-gray-400 text-sm line-clamp-3 flex-1">
                         {article.excerpt}
                       </p>
-
                       <div className="flex items-center justify-between text-xs text-gray-500">
                         <div className="flex items-center gap-2">
                           <Calendar size={14} />
                           {article.date}
                         </div>
-                        <a
-                          href={article.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-400 hover:text-blue-300 transition inline-flex items-center gap-1"
-                        >
+                        <span className="text-blue-400 group-hover:text-blue-300 transition inline-flex items-center gap-1">
                           Leer <ArrowRight size={12} />
-                        </a>
+                        </span>
                       </div>
                     </>
                   )}
                 </div>
-              </motion.article>
+              </motion.a>
             ))}
           </div>
         </div>
