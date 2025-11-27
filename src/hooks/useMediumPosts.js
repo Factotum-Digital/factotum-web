@@ -23,17 +23,24 @@ const useMediumPosts = (username) => {
       const image = extractImageFromHTML(item.content) || 
                    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
       
+      // Asegurar que el enlace sea una URL completa
+      let link = item.link || '';
+      if (link && !link.startsWith('http')) {
+        // Si el enlace es relativo, convertirlo a absoluto
+        link = `https://medium.com${link.startsWith('/') ? '' : '/'}${link}`;
+      }
+      
       return {
         id: item.guid,
         title: item.title,
-        excerpt: extractTextFromHTML(item.description),
-        content: item.content,
+        excerpt: extractTextFromHTML(item.description || ''),
+        content: item.content || '',
         date: formatMediumDate(item.pubDate),
         readTime: '5 min', // No disponible en la API, valor por defecto
         category: item.categories?.[0] || 'Blog',
         image,
-        link: item.link,
-        author: item.author,
+        link,
+        author: item.author || 'Factotum Digital',
       };
     });
   }, []);
